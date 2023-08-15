@@ -1,0 +1,27 @@
+name: Destroy Azure Resources
+on: 
+    workflow_dispatch:
+
+env:
+    AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID  }}    # set this to your Azure Subscription Id
+    AZURE_RESOURCEGROUP_NAME: rg-azcl-webappsql-gh-actions                      # set this to your preferred resource group name
+
+permissions:
+  id-token: write 
+  contents: read  
+
+jobs:
+    destroy-dev-resources:
+      runs-on: ubuntu-latest
+      steps:
+                  
+      - name: Azure Login with Federated Identity
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      
+      - name: Delete resource group resources
+        run: |
+          az group delete -n ${{ env.AZURE_RESOURCEGROUP_NAME }}
