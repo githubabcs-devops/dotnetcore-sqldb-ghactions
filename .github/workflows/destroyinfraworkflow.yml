@@ -24,4 +24,4 @@ jobs:
       
       - name: Delete resource group resources
         run: |
-          az group delete -n ${{ env.AZURE_RESOURCEGROUP_NAME }}
+          az group delete -n ${{ env.AZURE_RESOURCEGROUP_NAME }} --yes -y
